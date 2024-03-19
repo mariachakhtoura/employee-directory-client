@@ -1,32 +1,43 @@
-import { MenuItem } from "primereact/menuitem"
+import { MenuItem } from "primereact/menuitem";
+import { NavigateFunction } from "react-router-dom";
 
-const menuItems: MenuItem[] = [
+const menuItems = (navigate: NavigateFunction): MenuItem[] => [
   {
-    id: 'users',
-    label: 'All Employees',
-    url: '/all-employees'
+    id: "users",
+    label: "All Employees",
+    url: "/",
+    command: (data) => {
+      const { originalEvent, item } = data;
+      originalEvent.preventDefault();
+      navigate(item.url || "");
+    },
   },
   {
-    id: 'actions',
-    label: 'Actions',
+    id: "categories",
+    label: "Categories",
     items: [
       {
-        id: 'createuser',
-        label: 'Add New Employee',
-        url: '/new-employee'
+        id: "country",
+        label: "Country",
+        url: "/category/country",
+        command: (data) => {
+          const { originalEvent, item } = data;
+          originalEvent.preventDefault();
+          navigate(item.url || "");
+        },
       },
       {
-        id: 'updateuser',
-        label: 'Update Employee',
-        url: '/edit-employee'
+        id: "gender",
+        label: "Gender",
+        url: "/category/gender",
+        command: (data) => {
+          const { originalEvent, item } = data;
+          originalEvent.preventDefault();
+          navigate(item.url || "");
+        },
       },
-      {
-        id: 'deleteuser',
-        label: 'Remove Employee',
-        url: '/delete-employee'
-      },
-    ]
-  }
-]
+    ],
+  },
+];
 
-export default menuItems
+export default menuItems;

@@ -1,6 +1,9 @@
 import { Button } from "primereact/button";
+import { useContext } from "react";
+import { Context } from "../../services/context-service";
 
 function SectionHeader() {
+  const {dialog} = useContext(Context);
   return (
     <div className="flex">
       <div className="flex align-items-center flex-1">
@@ -10,6 +13,7 @@ function SectionHeader() {
           label="Add Employee"
           icon="pi pi-user-plus"
           className="flex-2"
+          onClick={() => dialog.toggleOpen()}
         />
       </div>
     </div>

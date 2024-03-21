@@ -6,18 +6,18 @@ import { PrimeReactProvider } from "primereact/api";
 import Navbar from "./components/navbar/Navbar";
 import { Outlet } from "react-router-dom";
 import { useState } from "react";
-import { Context } from "./services/context-service";
-import { IDialog } from "./components/dialog/model";
-import MainDialog from "./components/dialog/MainDialog";
+import { Context, IContext } from "./services/context-service";
+import { IDialog } from "./components/generic/dialog/model";
+import MainDialog from "./components/generic/dialog/MainDialog";
 
 function App() {
   const [dialog, setDialog] = useState<IDialog['content']>(false);
 
-  const context = {
+  const context: IContext = {
     dialog: {
       open: !!dialog,
       content: dialog,
-      toggleOpen: () => setDialog(!dialog)
+      toggleOpen: (content) => setDialog(content)
     }
   };
 

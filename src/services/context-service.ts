@@ -1,7 +1,7 @@
 import { createContext } from 'react';
-import { IDialog } from '../components/dialog/model';
+import { IDialog } from '../components/generic/dialog/model';
 
-interface IContext {
+export interface IContext {
   dialog: IDialog;
 }
 

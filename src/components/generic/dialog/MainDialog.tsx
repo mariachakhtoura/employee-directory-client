@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Context } from '../../services/context-service';
+import { Context } from '../../../services/context-service';
 import { Dialog } from 'primereact/dialog';
 
 const MainDialog = () => {
@@ -8,7 +8,6 @@ const MainDialog = () => {
   return (
     <Dialog
       visible={dialog.open}
-      modal
       onHide={() => dialog.toggleOpen()}
       content={dialog.content}
     >

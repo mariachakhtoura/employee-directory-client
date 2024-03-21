@@ -4,7 +4,8 @@ import AppError from "../AppError";
 import Category from "../components/category/Category";
 import UserDetails from "../components/user-details/UserDetails";
 import UserProfile from "../components/user-profile/UserProfile";
-import rootLoader from "./loaders/rootLoader";
+import usersLoader from "./loaders/usersLoader";
+import deleteUserAction from "./actions/deleteUserAction";
 
 const router = createBrowserRouter([
   {
@@ -14,7 +15,8 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        loader: rootLoader,
+        loader: usersLoader,
+        action: deleteUserAction,
         element: <UserDetails />,
       },
       {

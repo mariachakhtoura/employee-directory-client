@@ -39,6 +39,7 @@ const CreateUserForm = ({ values }: ICreateUserFormProps) => {
         >
           <InputText
             className='mb-1 w-full'
+            // placeholder='John'
             {...register('firstName', { required: true })}
           />
         </DialogFieldWrapper>
@@ -54,6 +55,7 @@ const CreateUserForm = ({ values }: ICreateUserFormProps) => {
         >
           <InputText
             className='mb-1 w-full'
+            // placeholder='Doe'
             {...register('lastName', { required: true })}
           />
         </DialogFieldWrapper>
@@ -73,12 +75,13 @@ const CreateUserForm = ({ values }: ICreateUserFormProps) => {
           <InputText
             className='w-full mb-1'
             type='email'
+            // placeholder='johndoe@example.com'
             {...register('email', { required: true })}
           />
         </DialogFieldWrapper>
       </div>
 
-      <div className='flex gap-4  w-full'>
+      <div className='flex gap-4 w-full'>
         <DialogFieldWrapper
           label={{
             fieldName: 'dob',
@@ -86,10 +89,16 @@ const CreateUserForm = ({ values }: ICreateUserFormProps) => {
           }}
           error={{
             existsError: !!errors.dob,
-            errorText: 'Required',
+            errorText: '',
           }}
         >
-          <Calendar className='mb-5' showIcon {...register('dob')} />
+          <Calendar
+            className='mb-5'
+            showIcon
+            dateFormat='dd/mm/yy'
+            // placeholder='dd/mm/yyyy'
+            {...register('dob')}
+          />
         </DialogFieldWrapper>
         <DialogFieldWrapper
           label={{
@@ -98,15 +107,31 @@ const CreateUserForm = ({ values }: ICreateUserFormProps) => {
           }}
           error={{
             existsError: !!errors.gender,
-            errorText: 'Required',
+            errorText: '',
           }}
         >
           <Dropdown
             {...register('gender')}
             options={GENDERS}
-            optionLabel='gender'
-            placeholder='Select your gender'
+            optionLabel='name'
+            // placeholder='Select your gender'
             className='mb-5 w-full'
+          />
+        </DialogFieldWrapper>
+        <DialogFieldWrapper
+          label={{
+            fieldName: 'country',
+            text: 'Country',
+          }}
+          error={{
+            existsError: !!errors.country,
+            errorText: 'Required',
+          }}
+        >
+          <InputText
+            className='mb-1 w-full'
+            // placeholder='Doe'
+            {...register('country')}
           />
         </DialogFieldWrapper>
       </div>

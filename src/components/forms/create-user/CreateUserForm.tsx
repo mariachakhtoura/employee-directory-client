@@ -23,6 +23,7 @@ const CreateUserForm = ({ values }: ICreateUserFormProps) => {
   return (
     <>
       <div className='flex gap-4 w-full'>
+        <input hidden defaultValue={values?.id} />
         <DialogFieldWrapper
           label={{
             fieldName: 'firstName',

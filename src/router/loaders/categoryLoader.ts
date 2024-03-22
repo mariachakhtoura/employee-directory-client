@@ -8,7 +8,8 @@ export default async function categoryLoader({
 }: LoaderFunctionArgs<unknown>) {
   const category = params.category || '';
   const categories = await getCategoryValues(category);
-  return { categories };
+  const users = await getUsersByCategory(category, categories?.[0]);
+  return { categories, users };
 }
 
 async function getCategoryValues(category: string) {

@@ -1,6 +1,7 @@
 import { GenderEnum } from "../../../common/models/user";
 
 export interface ICreateUserInputs {
+  id?: string;
   firstName: string;
   lastName: string;
   email: string;

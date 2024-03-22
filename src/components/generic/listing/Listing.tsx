@@ -8,6 +8,7 @@ const Listing = ({ columns, records, header }: IListingProps) => {
     <DataTable
       header={header}
       value={records}
+      minLength={10}
       paginator
       paginatorTemplate='PrevPageLink CurrentPageReport NextPageLink RowsPerPageDropdown'
       rowsPerPageOptions={[10, 25, 50]}

@@ -5,7 +5,7 @@ import DataService from '../../services/data-service';
 export default async function userDetailsLoader({
   params,
 }: LoaderFunctionArgs<unknown>) {
-  const id = params.id || '';
+  const id = params.userId || ''
   const user = await getUserDetails(id);
   return { user };
 }

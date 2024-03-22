@@ -1,4 +1,8 @@
-import { FetcherWithComponents, useFetcher, useLoaderData } from 'react-router-dom';
+import {
+  FetcherWithComponents,
+  useFetcher,
+  useLoaderData,
+} from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { Button } from 'primereact/button';
 import Listing from '../generic/listing/Listing';
@@ -12,6 +16,7 @@ import CreateUserForm from '../forms/create-user/CreateUserForm';
 import { Forms } from '../../common/models/form';
 import { ILoaderData } from '../../router/loaders';
 import { mapRecords } from '../../common/utils/user-utils';
+import MainLayout from '../generic/layout/MainLayout';
 
 function UserListing() {
   const [searchValue, setSearchValue] = useState<string>('');
@@ -27,45 +32,39 @@ function UserListing() {
   const columns: ListingColumn = [...COLUMNS, deleteAction];
 
   return (
-    <div className='border-y-1 border-50'>
-      <div className='ml-4 mt-2 w-auto'>
-        <div className='flex'>
-          <div className='w-full flex-2'>
-            <SectionHeader
-              title='Employees'
-              buttonLabel='Add Employee'
-              onButtonClick={() => {
-                dialog.toggleOpen(
-                  <DialogFormLayout>
-                    <fetcher.Form method='post'>
-                      <CreateUserForm />
-                    </fetcher.Form>
-                  </DialogFormLayout>
-                );
+    <MainLayout>
+      <div className='w-full flex-2'>
+        <SectionHeader
+          title='Employees'
+          buttonLabel='Add Employee'
+          onButtonClick={() => {
+            dialog.toggleOpen(
+              <DialogFormLayout>
+                <fetcher.Form method='post'>
+                  <CreateUserForm />
+                </fetcher.Form>
+              </DialogFormLayout>
+            );
+          }}
+        />
+        <p className='text-xl text-500 font-medium'>Employee Directory</p>
+        <Listing
+          columns={columns}
+          records={userRecords}
+          header={
+            <SearchBar
+              value={searchValue}
+              placeholder='Search employees'
+              onSearch={(value) => {
+                setSearchValue(value);
               }}
             />
-            <p className='text-xl text-500 font-medium'>Employee Directory</p>
-            <Listing
-              columns={columns}
-              records={userRecords}
-              header={
-                <SearchBar
-                  value={searchValue}
-                  placeholder='Search employees'
-                  onSearch={(value) => {
-                    setSearchValue(value);
-                  }}
-                />
-              }
-            />
-          </div>
-        </div>
+          }
+        />
       </div>
-    </div>
+    </MainLayout>
   );
 }
-
-
 
 function getDeleteUserAction(fetcher: FetcherWithComponents<unknown>) {
   return {
@@ -76,16 +75,17 @@ function getDeleteUserAction(fetcher: FetcherWithComponents<unknown>) {
     bodyStyle: { textAlign: 'center' as const, overflow: 'visible' },
     body: (data: Record<string, string>) => {
       return (
-      <fetcher.Form method='post'>
-        <input hidden name='id' defaultValue={data.id} />
-        <Button
-          icon='pi pi-trash'
-          name='intent'
-          value={Forms.deleteUser}
-          className='bg-red-600 border-transparent w-2rem h-2rem'
-        />
-      </fetcher.Form>
-    )},
+        <fetcher.Form method='post'>
+          <input hidden name='id' defaultValue={data.id} />
+          <Button
+            icon='pi pi-trash'
+            name='intent'
+            value={Forms.deleteUser}
+            className='bg-red-600 border-transparent w-2rem h-2rem'
+          />
+        </fetcher.Form>
+      );
+    },
     type: ListingColumnType.Action,
   };
 }

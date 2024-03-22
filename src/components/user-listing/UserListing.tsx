@@ -17,11 +17,13 @@ import { Forms } from '../../common/models/form';
 import { ILoaderData } from '../../router/loaders';
 import { mapRecords } from '../../common/utils/user-utils';
 import MainLayout from '../generic/layout/MainLayout';
+import { useTranslation } from 'react-i18next';
 
 function UserListing() {
   const [searchValue, setSearchValue] = useState<string>('');
   const { dialog } = useContext(Context);
 
+  const { t } = useTranslation();
   const fetcher = useFetcher();
   const loader = useLoaderData() as ILoaderData;
   const users = fetcher.data?.users || loader.users;
@@ -35,8 +37,8 @@ function UserListing() {
     <MainLayout>
       <div className='w-full flex-2'>
         <SectionHeader
-          title='Employees'
-          buttonLabel='Add Employee'
+          title={t('userlisting.header.title')}
+          buttonLabel={t('userlisting.header.button.label')}
           onButtonClick={() => {
             dialog.toggleOpen(
               <DialogFormLayout>
@@ -47,14 +49,14 @@ function UserListing() {
             );
           }}
         />
-        <p className='text-xl text-500 font-medium'>Employee Directory</p>
+        <p className='text-xl text-500 font-medium'>{t('userlisting.title')}</p>
         <Listing
           columns={columns}
           records={userRecords}
           header={
             <SearchBar
               value={searchValue}
-              placeholder='Search employees'
+              placeholder={t('userlisting.searchbox.placeholder')}
               onSearch={(value) => {
                 setSearchValue(value);
               }}

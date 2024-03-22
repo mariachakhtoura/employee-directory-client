@@ -8,11 +8,15 @@ import { mapRecords } from '../../common/utils/user-utils';
 import { getUsersByCategory } from '../../router/loaders/categoryLoader';
 import { COLUMNS } from '../user-listing/model';
 import MainLayout from '../generic/layout/MainLayout';
+import { useTranslation } from 'react-i18next';
 
 function Category() {
   const params = useParams();
   const categorySelected = params['category'] || '';
+
   const { categories, users } = useLoaderData() as ILoaderData;
+  const { t } = useTranslation();
+
   const [values, setValues] = useState<{
     selectedValue: string;
     users: Record<string, unknown>[];
@@ -24,7 +28,9 @@ function Category() {
   return (
     <MainLayout>
       <div className='flex gap-6 align-items-center mb-4'>
-        <h1>{`Display: By ${capitalizeFirstLetter(categorySelected)}`}</h1>
+        <h1>{`${t('general.display-by')} ${capitalizeFirstLetter(
+          categorySelected
+        )}`}</h1>
         <Dropdown
           value={values.selectedValue}
           onChange={async (event) => {

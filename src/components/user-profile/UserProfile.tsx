@@ -4,15 +4,21 @@ import { Button } from 'primereact/button';
 import { Context } from '../../services/context-service';
 import DialogFormLayout from '../forms/DialogFormLayout';
 import { ILoaderData } from '../../router/loaders';
-import { capitalizeFirstLetter, concatName } from '../../common/utils/string-utils';
+import {
+  capitalizeFirstLetter,
+  concatName,
+} from '../../common/utils/string-utils';
 import MainLayout from '../generic/layout/MainLayout';
 import UpdateUserForm from '../forms/update-user/UpdateUserForm';
 import InfoDisplay from './InfoDisplay';
+import { useTranslation } from 'react-i18next';
 
 const UserProfile = () => {
   const loader = useLoaderData() as ILoaderData;
   const { name, email, picture, country, dob, gender, id } = loader.user;
+
   const { dialog } = useContext(Context);
+  const { t } = useTranslation();
 
   return (
     <MainLayout className='bg-blue-50 h-full'>
@@ -25,7 +31,7 @@ const UserProfile = () => {
           <h1>{concatName(name)}</h1>
           <p>{email}</p>
           <Button
-            label='Edit Employee'
+            label={t('userprofile.button.label')}
             icon='pi pi-user-edit'
             className='flex-2 my-1'
             text
@@ -51,19 +57,19 @@ const UserProfile = () => {
         </div>
       </div>
       <div>
-        <h2>Contact Information</h2>
+        <h2>{t('userprofile.infosection.title')}</h2>
         <InfoDisplay
           info={[
             {
-              label: 'Gender',
+              label: t('forms.user.fields.gender.label'),
               value: capitalizeFirstLetter(gender),
             },
             {
-              label: 'Country',
+              label: t('forms.user.fields.country.label'),
               value: country,
             },
             {
-              label: 'Date of Birth',
+              label: t('forms.user.fields.dob.label'),
               value: dob,
             },
           ]}

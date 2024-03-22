@@ -6,12 +6,14 @@ import { Calendar } from 'primereact/calendar';
 import { GENDERS, ICreateUserInputs } from './model';
 import DialogFieldWrapper from '../DialogFieldWrapper';
 import { Forms } from '../../../common/models/form';
+import { useTranslation } from 'react-i18next';
 
 export interface ICreateUserFormProps {
   values?: Partial<ICreateUserInputs>;
 }
 
 const CreateUserForm = ({ values }: ICreateUserFormProps) => {
+  const { t } = useTranslation();
   const {
     control,
     register,
@@ -27,11 +29,11 @@ const CreateUserForm = ({ values }: ICreateUserFormProps) => {
         <DialogFieldWrapper
           label={{
             fieldName: 'firstName',
-            text: 'First Name',
+            text: t('forms.user.fields.firstname.label'),
           }}
           error={{
             existsError: !!errors.firstName,
-            errorText: 'Required',
+            errorText: t('forms.error.required'),
           }}
         >
           <InputText
@@ -42,11 +44,11 @@ const CreateUserForm = ({ values }: ICreateUserFormProps) => {
         <DialogFieldWrapper
           label={{
             fieldName: 'lastName',
-            text: 'Last Name',
+            text: t('forms.user.fields.lastname.label'),
           }}
           error={{
             existsError: !!errors.lastName,
-            errorText: 'Required',
+            errorText: t('forms.error.required'),
           }}
         >
           <InputText
@@ -60,11 +62,11 @@ const CreateUserForm = ({ values }: ICreateUserFormProps) => {
         <DialogFieldWrapper
           label={{
             fieldName: 'email',
-            text: 'Email',
+            text: t('forms.user.fields.email.label'),
           }}
           error={{
             existsError: !!errors.email,
-            errorText: 'Required',
+            errorText: t('forms.error.required'),
           }}
         >
           <InputText
@@ -79,7 +81,7 @@ const CreateUserForm = ({ values }: ICreateUserFormProps) => {
         <DialogFieldWrapper
           label={{
             fieldName: 'dob',
-            text: 'Date of birth',
+            text: t('forms.user.fields.dob.label'),
           }}
           error={{
             existsError: !!errors.dob,
@@ -102,7 +104,7 @@ const CreateUserForm = ({ values }: ICreateUserFormProps) => {
         <DialogFieldWrapper
           label={{
             fieldName: 'gender',
-            text: 'Gender',
+            text: t('forms.user.fields.gender.label'),
           }}
           error={{
             existsError: !!errors.gender,
@@ -125,7 +127,7 @@ const CreateUserForm = ({ values }: ICreateUserFormProps) => {
         <DialogFieldWrapper
           label={{
             fieldName: 'country',
-            text: 'Country',
+            text: t('forms.user.fields.country.label'),
           }}
           error={{
             existsError: !!errors.country,
@@ -137,7 +139,7 @@ const CreateUserForm = ({ values }: ICreateUserFormProps) => {
       </div>
 
       <Button
-        label='Submit'
+        label={t('forms.submit')}
         type='submit'
         text
         name='intent'

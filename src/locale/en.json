@@ -1,0 +1,22 @@
+{
+  "translation": {
+    "userlisting.header.title": "Employees",
+    "userlisting.title": "Employee Directory",
+    "userlisting.header.button.label": "Add Employee",
+    "userlisting.searchbox.placeholder": "Search employees",
+
+    "userprofile.button.label": "Edit Employee",
+    "userprofile.infosection.title": "Contact Information",
+
+    "forms.user.fields.firstname.label": "First Name",
+    "forms.user.fields.lastname.label": "Last Name",
+    "forms.user.fields.email.label": "Email",
+    "forms.user.fields.gender.label": "Gender",
+    "forms.user.fields.country.label": "Country",
+    "forms.user.fields.dob.label": "Date of Birth",
+    "forms.errors.required": "Required",
+    "forms.submit": "Submit",
+
+    "general.display-by": "Display: By"
+  }
+}

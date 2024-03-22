@@ -1,10 +1,11 @@
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
 import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
 import { GENDERS, ICreateUserInputs } from './model';
 import DialogFieldWrapper from '../DialogFieldWrapper';
+import { Forms } from '../../../common/models/form';
 
 export interface ICreateUserFormProps {
   values?: Partial<ICreateUserInputs>;
@@ -12,20 +13,15 @@ export interface ICreateUserFormProps {
 
 const CreateUserForm = ({ values }: ICreateUserFormProps) => {
   const {
+    control,
     register,
-    handleSubmit,
     formState: { errors },
   } = useForm<ICreateUserInputs>({
     defaultValues: values,
   });
-  const onSubmit: SubmitHandler<ICreateUserInputs> = (data) =>
-    console.log(data);
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className='flex flex-column align-items-center'
-    >
+    <>
       <div className='flex gap-4 w-full'>
         <DialogFieldWrapper
           label={{
@@ -39,7 +35,6 @@ const CreateUserForm = ({ values }: ICreateUserFormProps) => {
         >
           <InputText
             className='mb-1 w-full'
-            // placeholder='John'
             {...register('firstName', { required: true })}
           />
         </DialogFieldWrapper>
@@ -55,7 +50,6 @@ const CreateUserForm = ({ values }: ICreateUserFormProps) => {
         >
           <InputText
             className='mb-1 w-full'
-            // placeholder='Doe'
             {...register('lastName', { required: true })}
           />
         </DialogFieldWrapper>
@@ -75,7 +69,6 @@ const CreateUserForm = ({ values }: ICreateUserFormProps) => {
           <InputText
             className='w-full mb-1'
             type='email'
-            // placeholder='johndoe@example.com'
             {...register('email', { required: true })}
           />
         </DialogFieldWrapper>
@@ -92,12 +85,17 @@ const CreateUserForm = ({ values }: ICreateUserFormProps) => {
             errorText: '',
           }}
         >
-          <Calendar
-            className='mb-5'
-            showIcon
-            dateFormat='dd/mm/yy'
-            // placeholder='dd/mm/yyyy'
-            {...register('dob')}
+          <Controller
+            name='dob'
+            control={control}
+            render={({ field }) => (
+              <Calendar
+                {...field}
+                className='mb-5'
+                showIcon
+                dateFormat='dd/mm/yy'
+              />
+            )}
           />
         </DialogFieldWrapper>
         <DialogFieldWrapper
@@ -110,12 +108,17 @@ const CreateUserForm = ({ values }: ICreateUserFormProps) => {
             errorText: '',
           }}
         >
-          <Dropdown
-            {...register('gender')}
-            options={GENDERS}
-            optionLabel='name'
-            // placeholder='Select your gender'
-            className='mb-5 w-full'
+          <Controller
+            name='gender'
+            control={control}
+            render={({ field }) => (
+              <Dropdown
+                {...field}
+                options={GENDERS}
+                optionLabel='gender'
+                className='mb-5 w-full'
+              />
+            )}
           />
         </DialogFieldWrapper>
         <DialogFieldWrapper
@@ -125,14 +128,10 @@ const CreateUserForm = ({ values }: ICreateUserFormProps) => {
           }}
           error={{
             existsError: !!errors.country,
-            errorText: 'Required',
+            errorText: '',
           }}
         >
-          <InputText
-            className='mb-1 w-full'
-            // placeholder='Doe'
-            {...register('country')}
-          />
+          <InputText className='mb-1 w-full' {...register('country')} />
         </DialogFieldWrapper>
       </div>
 
@@ -140,9 +139,11 @@ const CreateUserForm = ({ values }: ICreateUserFormProps) => {
         label='Submit'
         type='submit'
         text
+        name='intent'
+        value={Forms.createUser}
         className='max-w-12rem w-full mt-5 p-3 hover:bg-primary-600 bg-primary'
       />
-    </form>
+    </>
   );
 };
 

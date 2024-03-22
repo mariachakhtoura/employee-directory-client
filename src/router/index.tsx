@@ -1,31 +1,35 @@
-import { createBrowserRouter } from "react-router-dom";
-import App from "../App";
-import AppError from "../AppError";
-import Category from "../components/category/Category";
-import UserDetails from "../components/user-details/UserDetails";
-import UserProfile from "../components/user-profile/UserProfile";
-import usersLoader from "./loaders/usersLoader";
-import deleteUserAction from "./actions/deleteUserAction";
+import { createBrowserRouter } from 'react-router-dom';
+import App from '../App';
+import AppError from '../AppError';
+import Category from '../components/category/Category';
+import UserListing from '../components/user-listing/UserListing';
+import UserProfile from '../components/user-profile/UserProfile';
+import usersLoader from './loaders/usersLoader';
+import formAction from './actions/formAction';
+import userDetailsLoader from './loaders/userDetailsLoader';
+import categoryLoader from './loaders/categoryLoader';
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <App />,
     errorElement: <AppError />,
     children: [
       {
-        path: "/",
+        path: '/',
         loader: usersLoader,
-        action: deleteUserAction,
-        element: <UserDetails />,
+        action: formAction,
+        element: <UserListing />,
       },
       {
-        path: "/:userId",
+        path: '/:userId',
+        loader: userDetailsLoader,
+        action: formAction,
         element: <UserProfile />,
-        
       },
       {
-        path: "/category/:category",
+        path: '/category/:category',
+        loader: categoryLoader,
         element: <Category />,
       },
     ],

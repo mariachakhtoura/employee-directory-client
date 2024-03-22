@@ -1,35 +1,30 @@
-import { FetcherWithComponents, useFetcher } from 'react-router-dom';
-import { useContext, useEffect, useState } from 'react';
+import { FetcherWithComponents, useFetcher, useLoaderData } from 'react-router-dom';
+import { useContext, useState } from 'react';
 import { Button } from 'primereact/button';
 import Listing from '../generic/listing/Listing';
 import SectionHeader from '../generic/section/SectionHeader';
 import { COLUMNS } from './model';
 import { ListingColumn, ListingColumnType } from '../generic/listing/model';
-import { IUserData } from '../../common/models/user';
-import {
-  capitalizeFirstLetter,
-  concatName,
-} from '../../common/utils/string-utils';
-import { formatDate } from '../../common/utils/date-utils';
 import SearchBar from '../generic/search/SearchBar';
 import { Context } from '../../services/context-service';
 import DialogFormLayout from '../forms/DialogFormLayout';
 import CreateUserForm from '../forms/create-user/CreateUserForm';
+import { Forms } from '../../common/models/form';
+import { ILoaderData } from '../../router/loaders';
+import { mapRecords } from '../../common/utils/user-utils';
 
-function UserDetails() {
+function UserListing() {
   const [searchValue, setSearchValue] = useState<string>('');
   const { dialog } = useContext(Context);
+
   const fetcher = useFetcher();
-  const { users } = fetcher.data ?? { users: [] };
+  const loader = useLoaderData() as ILoaderData;
+  const users = fetcher.data?.users || loader.users;
+
   const userRecords = mapRecords(users, searchValue);
   const deleteAction = getDeleteUserAction(fetcher);
-  const columns: ListingColumn = [...COLUMNS, deleteAction];
 
-  useEffect(() => {
-    if (fetcher.state === 'idle' && !fetcher.data) {
-      fetcher.load('/');
-    }
-  }, [fetcher]);
+  const columns: ListingColumn = [...COLUMNS, deleteAction];
 
   return (
     <div className='border-y-1 border-50'>
@@ -42,7 +37,9 @@ function UserDetails() {
               onButtonClick={() => {
                 dialog.toggleOpen(
                   <DialogFormLayout>
-                    <CreateUserForm />
+                    <fetcher.Form method='post'>
+                      <CreateUserForm />
+                    </fetcher.Form>
                   </DialogFormLayout>
                 );
               }}
@@ -68,21 +65,7 @@ function UserDetails() {
   );
 }
 
-function mapRecords(users: IUserData[], searchValue: string) {
-  return users
-    .filter((user) =>
-      JSON.stringify(user.name)
-        .toLowerCase()
-        .includes(searchValue.toLowerCase())
-    )
-    .map((user) => ({
-      id: user.id,
-      name: concatName(user.name),
-      dob: formatDate(user.dob),
-      gender: capitalizeFirstLetter(user.gender),
-      country: user.country,
-    }));
-}
+
 
 function getDeleteUserAction(fetcher: FetcherWithComponents<unknown>) {
   return {
@@ -91,18 +74,20 @@ function getDeleteUserAction(fetcher: FetcherWithComponents<unknown>) {
     header: '',
     headerStyle: { width: '2rem', textAlign: 'center' as const },
     bodyStyle: { textAlign: 'center' as const, overflow: 'visible' },
-    body: (data: Record<string, string>) => (
+    body: (data: Record<string, string>) => {
+      return (
       <fetcher.Form method='post'>
+        <input hidden name='id' defaultValue={data.id} />
         <Button
-          name='id'
           icon='pi pi-trash'
-          value={data.id}
+          name='intent'
+          value={Forms.deleteUser}
           className='bg-red-600 border-transparent w-2rem h-2rem'
         />
       </fetcher.Form>
-    ),
+    )},
     type: ListingColumnType.Action,
   };
 }
 
-export default UserDetails;
+export default UserListing;

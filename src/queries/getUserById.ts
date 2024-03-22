@@ -8,8 +8,6 @@ query getUserById($id: String!) {
     dob
     picture {
       large
-      medium
-      thumbnail
     }
     name {
       title

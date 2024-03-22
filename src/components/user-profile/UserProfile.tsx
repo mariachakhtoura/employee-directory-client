@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { useLoaderData } from 'react-router-dom';
+import { useFetcher, useLoaderData } from 'react-router-dom';
 import { Button } from 'primereact/button';
 import { Context } from '../../services/context-service';
 import DialogFormLayout from '../forms/DialogFormLayout';
@@ -12,19 +12,23 @@ import MainLayout from '../generic/layout/MainLayout';
 import UpdateUserForm from '../forms/update-user/UpdateUserForm';
 import InfoDisplay from './InfoDisplay';
 import { useTranslation } from 'react-i18next';
+import updateUserAction from '../../router/actions/manual-actions/updateUserAction';
+import { formatDate } from '../../common/utils/date-utils';
 
 const UserProfile = () => {
+  const fetcher = useFetcher();
   const loader = useLoaderData() as ILoaderData;
-  const { name, email, picture, country, dob, gender, id } = loader.user;
+  const { name, email, picture, country, dob, gender, id } =
+    fetcher.data?.user || loader.user;
 
   const { dialog } = useContext(Context);
   const { t } = useTranslation();
 
   return (
-    <MainLayout className='bg-blue-50 h-full'>
-      <div className='flex mb-3'>
+    <MainLayout className='bg-blue-50 main-screen'>
+      <div className='flex mb-3 wrapblock'>
         <img
-          src={picture.large}
+          src={picture?.large || '/vite.svg'}
           className='border-circle w-10rem h-10rem mr-4 max-w-15rem'
         />
         <div>
@@ -33,7 +37,7 @@ const UserProfile = () => {
           <Button
             label={t('userprofile.button.label')}
             icon='pi pi-user-edit'
-            className='flex-2 my-1'
+            className='flex-2 my-1 bg-white'
             text
             raised
             onClick={() =>
@@ -47,7 +51,15 @@ const UserProfile = () => {
                       email,
                       country,
                       dob: new Date(dob),
-                      gender,
+                      gender: {
+                        key: gender,
+                        gender,
+                      },
+                    }}
+                    onSubmit={async (data) => {
+                      await updateUserAction(data);
+                      fetcher.load(`/${id}`);
+                      dialog.toggleOpen();
                     }}
                   />
                 </DialogFormLayout>
@@ -70,7 +82,7 @@ const UserProfile = () => {
             },
             {
               label: t('forms.user.fields.dob.label'),
-              value: dob,
+              value: formatDate(dob),
             },
           ]}
         />

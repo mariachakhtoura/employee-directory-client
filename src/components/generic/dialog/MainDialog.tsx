@@ -7,6 +7,7 @@ const MainDialog = () => {
 
   return (
     <Dialog
+      className='flipleft'
       visible={dialog.open}
       onHide={() => dialog.toggleOpen()}
       content={dialog.content}

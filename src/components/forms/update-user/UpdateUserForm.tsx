@@ -1,8 +1,8 @@
 import CreateUserForm from '../create-user/CreateUserForm';
 import { IUpdateUserFormProps } from './model';
 
-function UpdateUserForm({ values }: IUpdateUserFormProps) {
-  return <CreateUserForm values={values} />;
+function UpdateUserForm(props: IUpdateUserFormProps) {
+  return <CreateUserForm {...props} />;
 }
 
 export default UpdateUserForm;

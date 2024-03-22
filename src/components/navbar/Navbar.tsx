@@ -1,19 +1,22 @@
-import { Menubar } from "primereact/menubar";
-import menuItems from "./model";
-import { useNavigate } from "react-router-dom";
+import { Menubar } from 'primereact/menubar';
+import menuItems from './model.tsx';
+import { useNavigate } from 'react-router-dom';
 
 function Navbar() {
   const navigate = useNavigate();
 
   return (
-    <div className="flex align-items-center ml-4">
-      <div
-        className="bg-auto bg-no-repeat bg-center bg-primary border-noround-left border-noround-bottom border-circle w-6rem h-2rem mr-4"
-        style={{ backgroundImage: `url('/vite.svg')` }}
+    <div className='header flex align-items-center ml-4'>
+      <button
+        type='button'
+        className='cursor-pointer border-none text-center bg-primary border-noround-left border-noround-bottom border-circle w-6rem h-2rem mr-4'
+        onClick={() => {
+          navigate('/');
+        }}
       >
-        {/* <i className="pi pi-users"></i> */}
-      </div>
-      <Menubar model={menuItems(navigate)} className="bg-white border-none" />
+        <i className='pi pi-users text-4xl text-white'></i>
+      </button>
+      <Menubar model={menuItems} className='bg-white border-none flex' />
     </div>
   );
 }

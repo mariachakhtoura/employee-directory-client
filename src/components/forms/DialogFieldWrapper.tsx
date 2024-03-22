@@ -3,7 +3,7 @@ import DialogLabel, { IDialogLabelProps } from './DialogLabel';
 
 interface IDialogFieldWrapperProps extends IWrapperComponent {
   label: IDialogLabelProps;
-  error: {
+  error?: {
     existsError: boolean;
     errorText: string;
   };
@@ -15,10 +15,10 @@ const DialogFieldWrapper = ({
   children,
 }: IDialogFieldWrapperProps) => {
   return (
-    <div className='flex-1 mb-5'>
+    <div className='formfieldWrapper'>
       <DialogLabel {...label} />
       {children}
-      {error.existsError && <span className='block'>{error.errorText}</span>}
+      {error?.existsError && <span className='block text-red-500'>{error.errorText}</span>}
     </div>
   );
 };

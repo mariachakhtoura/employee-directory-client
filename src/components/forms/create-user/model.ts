@@ -5,7 +5,10 @@ export interface ICreateUserInputs {
   firstName: string;
   lastName: string;
   email: string;
-  gender: GenderEnum;
+  gender: {
+    key: string;
+    gender: GenderEnum;
+  };
   dob: Date;
   country: string;
 };

@@ -5,9 +5,9 @@ import Category from '../components/category/Category';
 import UserListing from '../components/user-listing/UserListing';
 import UserProfile from '../components/user-profile/UserProfile';
 import usersLoader from './loaders/usersLoader';
-import formAction from './actions/formAction';
 import userDetailsLoader from './loaders/userDetailsLoader';
 import categoryLoader from './loaders/categoryLoader';
+import deleteUserAction from './actions/deleteUserAction';
 
 const router = createBrowserRouter([
   {
@@ -18,13 +18,12 @@ const router = createBrowserRouter([
       {
         path: '/',
         loader: usersLoader,
-        action: formAction,
+        action: deleteUserAction,
         element: <UserListing />,
       },
       {
         path: '/:userId',
         loader: userDetailsLoader,
-        action: formAction,
         element: <UserProfile />,
       },
       {

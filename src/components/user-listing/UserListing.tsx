@@ -2,6 +2,7 @@ import {
   FetcherWithComponents,
   useFetcher,
   useLoaderData,
+  useNavigate,
 } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { Button } from 'primereact/button';
@@ -13,17 +14,18 @@ import SearchBar from '../generic/search/SearchBar';
 import { Context } from '../../services/context-service';
 import DialogFormLayout from '../forms/DialogFormLayout';
 import CreateUserForm from '../forms/create-user/CreateUserForm';
-import { Forms } from '../../common/models/form';
 import { ILoaderData } from '../../router/loaders';
 import { mapRecords } from '../../common/utils/user-utils';
 import MainLayout from '../generic/layout/MainLayout';
 import { useTranslation } from 'react-i18next';
+import { createUserAction } from '../../router/actions/manual-actions/createUserAction';
 
 function UserListing() {
   const [searchValue, setSearchValue] = useState<string>('');
   const { dialog } = useContext(Context);
 
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const fetcher = useFetcher();
   const loader = useLoaderData() as ILoaderData;
   const users = fetcher.data?.users || loader.users;
@@ -42,9 +44,13 @@ function UserListing() {
           onButtonClick={() => {
             dialog.toggleOpen(
               <DialogFormLayout>
-                <fetcher.Form method='post'>
-                  <CreateUserForm />
-                </fetcher.Form>
+                <CreateUserForm
+                  onSubmit={async (data) => {
+                    const { user } = await createUserAction(data);
+                    navigate(`/${user.id}`);
+                    dialog.toggleOpen();
+                  }}
+                />
               </DialogFormLayout>
             );
           }}
@@ -78,11 +84,10 @@ function getDeleteUserAction(fetcher: FetcherWithComponents<unknown>) {
     body: (data: Record<string, string>) => {
       return (
         <fetcher.Form method='post'>
-          <input hidden name='id' defaultValue={data.id} />
           <Button
             icon='pi pi-trash'
-            name='intent'
-            value={Forms.deleteUser}
+            name='id'
+            value={data.id}
             className='bg-red-600 border-transparent w-2rem h-2rem'
           />
         </fetcher.Form>

@@ -1,30 +1,35 @@
 import { useForm, Controller } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
 import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
 import { GENDERS, ICreateUserInputs } from './model';
 import DialogFieldWrapper from '../DialogFieldWrapper';
-import { Forms } from '../../../common/models/form';
-import { useTranslation } from 'react-i18next';
 
 export interface ICreateUserFormProps {
   values?: Partial<ICreateUserInputs>;
+  onSubmit: (data: ICreateUserInputs) => void;
 }
 
-const CreateUserForm = ({ values }: ICreateUserFormProps) => {
+const CreateUserForm = ({ values, onSubmit }: ICreateUserFormProps) => {
   const { t } = useTranslation();
+
   const {
     control,
     register,
-    formState: { errors },
+    handleSubmit,
+    formState: { errors, isSubmitting },
   } = useForm<ICreateUserInputs>({
     defaultValues: values,
   });
 
   return (
-    <>
-      <div className='flex gap-4 w-full'>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className='flex align-items-center flex-column'
+    >
+      <div className='formfield'>
         <input hidden defaultValue={values?.id} />
         <DialogFieldWrapper
           label={{
@@ -33,7 +38,7 @@ const CreateUserForm = ({ values }: ICreateUserFormProps) => {
           }}
           error={{
             existsError: !!errors.firstName,
-            errorText: t('forms.error.required'),
+            errorText: t('forms.errors.required'),
           }}
         >
           <InputText
@@ -48,7 +53,7 @@ const CreateUserForm = ({ values }: ICreateUserFormProps) => {
           }}
           error={{
             existsError: !!errors.lastName,
-            errorText: t('forms.error.required'),
+            errorText: t('forms.errors.required'),
           }}
         >
           <InputText
@@ -58,7 +63,7 @@ const CreateUserForm = ({ values }: ICreateUserFormProps) => {
         </DialogFieldWrapper>
       </div>
 
-      <div className='w-full'>
+      <div className='formfield'>
         <DialogFieldWrapper
           label={{
             fieldName: 'email',
@@ -66,38 +71,32 @@ const CreateUserForm = ({ values }: ICreateUserFormProps) => {
           }}
           error={{
             existsError: !!errors.email,
-            errorText: t('forms.error.required'),
+            errorText: t('forms.errors.required'),
           }}
         >
           <InputText
             className='w-full mb-1'
             type='email'
-            {...register('email', { required: true })}
+            {...register('email', {
+              required: true,
+              pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+            })}
           />
         </DialogFieldWrapper>
       </div>
 
-      <div className='flex gap-4 w-full'>
+      <div className='formfield'>
         <DialogFieldWrapper
           label={{
             fieldName: 'dob',
             text: t('forms.user.fields.dob.label'),
-          }}
-          error={{
-            existsError: !!errors.dob,
-            errorText: '',
           }}
         >
           <Controller
             name='dob'
             control={control}
             render={({ field }) => (
-              <Calendar
-                {...field}
-                className='mb-5'
-                showIcon
-                dateFormat='dd/mm/yy'
-              />
+              <Calendar {...field} showIcon dateFormat='dd/mm/yy' />
             )}
           />
         </DialogFieldWrapper>
@@ -105,10 +104,6 @@ const CreateUserForm = ({ values }: ICreateUserFormProps) => {
           label={{
             fieldName: 'gender',
             text: t('forms.user.fields.gender.label'),
-          }}
-          error={{
-            existsError: !!errors.gender,
-            errorText: '',
           }}
         >
           <Controller
@@ -119,7 +114,7 @@ const CreateUserForm = ({ values }: ICreateUserFormProps) => {
                 {...field}
                 options={GENDERS}
                 optionLabel='gender'
-                className='mb-5 w-full'
+                className='w-full'
               />
             )}
           />
@@ -128,10 +123,6 @@ const CreateUserForm = ({ values }: ICreateUserFormProps) => {
           label={{
             fieldName: 'country',
             text: t('forms.user.fields.country.label'),
-          }}
-          error={{
-            existsError: !!errors.country,
-            errorText: '',
           }}
         >
           <InputText className='mb-1 w-full' {...register('country')} />
@@ -142,11 +133,10 @@ const CreateUserForm = ({ values }: ICreateUserFormProps) => {
         label={t('forms.submit')}
         type='submit'
         text
-        name='intent'
-        value={Forms.createUser}
+        loading={isSubmitting}
         className='max-w-12rem w-full mt-5 p-3 hover:bg-primary-600 bg-primary'
       />
-    </>
+    </form>
   );
 };
 

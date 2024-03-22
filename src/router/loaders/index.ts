@@ -4,4 +4,5 @@ export interface ILoaderData {
   users: IUserData[];
   user: IUserData;
   categories: string[];
+  categoryUsers: IUserData[];
 }

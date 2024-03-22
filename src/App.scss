@@ -1,26 +1,54 @@
 @import 'primeflex/primeflex.scss';
 
 $breakpoint-mobile: 412px;
+$breakpoint-tablet: 650px;
+$header-height: 60px;
+
+.header {
+  height: 60px;
+}
 
 .wrapblock {
-    @include styleclass('flex align-items-center');
-    @media (max-width: $breakpoint-mobile) {
-      display: block !important;
-    }
+  @include styleclass('flex align-items-center');
+  @media (max-width: $breakpoint-mobile) {
+    display: block !important;
   }
-  
-  .hidemobile {
-    @media (max-width: $breakpoint-mobile) {
-      display: none;
-    }
+}
+
+.hidemobile {
+  @media (max-width: $breakpoint-mobile) {
+    display: none;
   }
-  
-  .mb-0-mobile {
-    @media (max-width: $breakpoint-mobile) {
-      margin-bottom: 0,
-    }
+}
+
+.mb-0-mobile {
+  @media (max-width: $breakpoint-mobile) {
+    margin-bottom: 0;
   }
-  
-  .formfield {
-    @include styleclass('flex gap-4 w-full');
+}
+
+.formwrapper {
+  @include styleclass('flex flex-column px-7 py-7 bg-blue-50');
+  max-height: 80vh;
+  max-width: 51rem;
+  overflow: auto;
+  @media (max-width: $breakpoint-tablet) {
+    padding: 3rem !important;
   }
+}
+
+.formfield {
+  @include styleclass('flex gap-4 w-full');
+  @media (max-width: $breakpoint-tablet) {
+    display: block !important;
+  }
+}
+
+.formfieldWrapper {
+  @include styleclass('flex-1');
+  min-height: 6.5rem;
+}
+
+.main-screen {
+  height: calc(100vh - $header-height);
+}

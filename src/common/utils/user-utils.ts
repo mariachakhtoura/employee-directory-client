@@ -1,6 +1,7 @@
-import { IUserData } from "../models/user";
-import { formatDate } from "./date-utils";
-import { isString, concatName, capitalizeFirstLetter } from "./string-utils";
+import { ICreateUserInputs } from '../../components/forms/create-user/model';
+import { GenderEnum, IUserData } from '../models/user';
+import { formatDate } from './date-utils';
+import { isString, concatName, capitalizeFirstLetter } from './string-utils';
 
 export function mapRecords(users: IUserData[], searchValue?: string) {
   let filteredUsers = users;
@@ -19,4 +20,28 @@ export function mapRecords(users: IUserData[], searchValue?: string) {
     gender: capitalizeFirstLetter(user.gender),
     country: user.country,
   }));
+}
+
+export function getUserTitle(gender: GenderEnum) {
+  switch (gender) {
+    case GenderEnum.female:
+      return 'Ms.';
+    case GenderEnum.male:
+      return 'Mr.';
+  }
+}
+
+export function mapUserToUserData(user: ICreateUserInputs): Partial<IUserData> {
+  return {
+    id: user.id,
+    name: {
+      title: getUserTitle(user.gender?.gender),
+      first: user.firstName,
+      last: user.lastName,
+    },
+    email: user.email,
+    dob: user.dob.toString(),
+    gender: user.gender?.gender,
+    country: user.country,
+  }
 }

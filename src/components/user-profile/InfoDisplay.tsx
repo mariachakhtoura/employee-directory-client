@@ -4,7 +4,7 @@ function InfoDisplay({ info }: IInforDisplayProps) {
   return info.map((row) => {
     const { label, value } = row;
     return (
-      <p>
+      <p key={label}>
         {label}: {value}
       </p>
     );

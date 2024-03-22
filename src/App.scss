@@ -1,0 +1,26 @@
+@import 'primeflex/primeflex.scss';
+
+$breakpoint-mobile: 412px;
+
+.wrapblock {
+    @include styleclass('flex align-items-center');
+    @media (max-width: $breakpoint-mobile) {
+      display: block !important;
+    }
+  }
+  
+  .hidemobile {
+    @media (max-width: $breakpoint-mobile) {
+      display: none;
+    }
+  }
+  
+  .mb-0-mobile {
+    @media (max-width: $breakpoint-mobile) {
+      margin-bottom: 0,
+    }
+  }
+  
+  .formfield {
+    @include styleclass('flex gap-4 w-full');
+  }

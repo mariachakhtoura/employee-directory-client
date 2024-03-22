@@ -8,8 +8,8 @@ function SectionHeader({
 }: ISectionHeaderProps) {
   return (
     <div className='flex'>
-      <div className='flex align-items-center flex-1'>
-        <p className='text-sm font-semibold flex-2'>{title}</p>
+      <div className='wrapblock flex-1'>
+        <p className='text-sm font-semibold flex-2 mb-0-mobile'>{title}</p>
         <hr className='mx-2 flex-auto flex-5' />
         <Button
           label={buttonLabel}

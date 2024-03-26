@@ -24,9 +24,9 @@ export function mapRecords(users: IUserData[], searchValue?: string) {
 
 export function getUserTitle(gender: GenderEnum) {
   switch (gender) {
-    case GenderEnum.female:
+    case GenderEnum.Female:
       return 'Ms.';
-    case GenderEnum.male:
+    case GenderEnum.Male:
       return 'Mr.';
   }
 }
@@ -41,7 +41,7 @@ export function mapUserToUserData(user: ICreateUserInputs): Partial<IUserData> {
     },
     email: user.email,
     dob: user.dob.toString(),
-    gender: user.gender?.gender,
+    gender: user.gender?.key,
     country: user.country,
   }
 }

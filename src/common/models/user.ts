@@ -1,6 +1,6 @@
 export interface IUserData {
   id: string;
-  gender: GenderEnum;
+  gender: string;
   country: string;
   dob: string;
   email: string;
@@ -13,10 +13,10 @@ export interface IUserData {
     large: string;
     medium: string;
     thumbnail: string;
-  }
+  };
 }
 
 export enum GenderEnum {
-  female = "female",
-  male = "male",
+  Female = 'Female',
+  Male = 'Male',
 }

@@ -14,6 +14,7 @@ import InfoDisplay from './InfoDisplay';
 import { useTranslation } from 'react-i18next';
 import updateUserAction from '../../router/actions/manual-actions/updateUserAction';
 import { formatDate } from '../../common/utils/date-utils';
+import { GenderEnum } from '../../common/models/user';
 
 const UserProfile = () => {
   const fetcher = useFetcher();
@@ -53,7 +54,7 @@ const UserProfile = () => {
                       dob: new Date(dob),
                       gender: {
                         key: gender,
-                        gender,
+                        gender: capitalizeFirstLetter(gender) as GenderEnum,
                       },
                     }}
                     onSubmit={async (data) => {

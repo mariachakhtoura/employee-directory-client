@@ -16,10 +16,10 @@ export interface ICreateUserInputs {
 export const GENDERS = [
   {
     key: 'female',
-    gender: 'Female',
+    gender: GenderEnum.Female,
   },
   {
     key: 'male',
-    gender: 'Male',
+    gender: GenderEnum.Male,
   }
 ]
